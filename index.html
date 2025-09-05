@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hacker Login / Signup</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+body {
+  height: 100vh;
+  background: black;
+  overflow: hidden;
+}
+
+/* Matrix Background */
+canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+}
+
+/* Form Container */
+.container {
+  position: relative;
+  width: 350px;
+  margin: 8% auto;
+  background: rgba(0, 255, 0, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); }
+  to { box-shadow: 0 0 35px rgba(0, 255, 0, 1); }
+}
+
+/* Glitch Title */
+.title {
+  font-size: 28px;
+  color: #0f0;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  animation: glitch 1s infinite;
+}
+@keyframes glitch {
+  0% { text-shadow: 2px 0 red, -2px 0 blue; }
+  50% { text-shadow: -2px 0 red, 2px 0 blue; }
+  100% { text-shadow: 2px 0 red, -2px 0 blue; }
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  background: rgba(0, 255, 0, 0.1);
+  border: none;
+  outline: none;
+  color: #0f0;
+  font-size: 14px;
+  border-bottom: 1px solid #0f0;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  background: #0f0;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  color: black;
+  transition: 0.3s;
+}
+button:hover {
+  background: black;
+  color: #0f0;
+  border: 1px solid #0f0;
+}
+
+/* Toggle Link */
+.toggle {
+  text-align: center;
+  margin-top: 10px;
+  color: #0f0;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+  <div class="title" id="formTitle">LOGIN</div>
+  <input type="text" id="username" placeholder="Username">
+  <input type="password" id="password" placeholder="Password">
+  <div id="extraField" style="display:none;">
+    <input type="email" placeholder="Email">
+  </div>
+  <button id="submitBtn">Enter System</button>
+  <div class="toggle" id="toggleForm">Switch to Signup</div>
+  <video src="videos"alt="error loading Video">
+
+
+<img src="images"alt="error loading Video">
+
+
+</div>
+
+<script>
+// Matrix Rain Animation
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+const letters = '01';
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#0F0';
+  ctx.font = fontSize + 'px monospace';
+  drops.forEach((y, i) => {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, y * fontSize);
+    if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+setInterval(draw, 33);
+
+// Toggle Login/Signup
+const toggleForm = document.getElementById('toggleForm');
+const formTitle = document.getElementById('formTitle');
+const extraField = document.getElementById('extraField');
+let isLogin = true;
+toggleForm.addEventListener('click', () => {
+  isLogin = !isLogin;
+  formTitle.textContent = isLogin ? 'LOGIN' : 'SIGNUP';
+  toggleForm.textContent = isLogin ? 'Switch to Signup' : 'Switch to Login';
+  extraField.style.display = isLogin ? 'none' : 'block';
+});
+</script>
+
+</body>
+</html>
